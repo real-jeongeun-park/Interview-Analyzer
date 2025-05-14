@@ -1,9 +1,16 @@
 package com.interviewanalyzer.domain;
 
-public class Article {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Comment {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String content;
     private String date;
-    private String comment;
     private Long likes;
 
     public Long getId() {
@@ -14,12 +21,12 @@ public class Article {
         this.id = id;
     }
 
-    public String getComment() {
-        return comment;
+    public String getContent() {
+        return content;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getDate() {
@@ -37,4 +44,5 @@ public class Article {
     public void setLikes(Long likes) {
         this.likes = likes;
     }
+
 }
