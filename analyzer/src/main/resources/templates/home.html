@@ -1,10 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>구직도움 웹사이트</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+
 </head>
 <body>
+
+  <header>
+    구직을 위한 통합 플랫폼
+  </header>
+
+  <nav>
+    <a href="home/analyzer">📄 자소서 분석</a>
+    <a href="home/interview">🎤 모의면접</a>
+    <a href="home/ai">🤖 AI 챗봇</a>
+    <a href="home/articles">📰 기사 모음집</a>
+    <a href="home/community">💬 커뮤니티</a>
+  </nav>
+
+  <section class="hero">
+    <h1>AI와 함께하는 취업 준비</h1>
+    <p>자소서 분석부터 면접 준비까지, 한 번에 해결하세요!</p> 자소서, 면접, 뉴스, 커뮤니티까지 한 곳에서!
+  </section>
+
+  <section class="features">
+    <a href="home/analyzer" class="card">
+      <h3>📄 자소서 분석</h3>
+      <p>AI가 문장을 분석하고 개선 팁을 제시해줍니다.</p>
+    </a>
+
+    <a href="home/interview" class="card">
+      <h3>🎤 모의면접</h3>
+      <p>카메라와 마이크를 활용한 실전 대비 연습 기능 제공</p>
+    </a>
+
+    <a href="home/ai" class="card">
+      <h3>🤖 구직 AI 챗봇</h3>
+      <p>GPT 기반 챗봇과 자유롭게 질문/상담 가능</p>
+    </a>
+
+    <a href="home/articles" class="card">
+      <h3>📰 기사 모음집</h3>
+      <p>채용 관련 뉴스/정보를 한곳에 모았습니다.</p>
+    </a>
+
+    <a href="home/community" class="card">
+      <h3>💬 커뮤니티</h3>
+      <p>다른 구직자들과 정보를 나누는 공간입니다.</p>
+    </a>
+  </section>
+
+  <footer>
+    © 2025 구직도움 웹사이트 - 모두의 취업을 응원합니다!
+  </footer>
 
 </body>
 </html>
