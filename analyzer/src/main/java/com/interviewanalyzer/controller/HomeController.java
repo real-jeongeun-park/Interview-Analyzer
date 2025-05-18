@@ -12,13 +12,8 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String homeTwo(){
+    public String homeTwo() {
         return "home";
-    }
-
-    @GetMapping("home/analyzer")
-    public String analyzer(){
-        return "analyzer";
     }
 
     @GetMapping("home/interview")

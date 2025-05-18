@@ -1,89 +1,72 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>모의면접</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 font-sans text-gray-800">
+    <meta charset="UTF-8" />
+    <title>모의면접</title>
+  <style>
 
-  <!-- 헤더 -->
+  </style>
+    <link href="../css/font.css" rel="stylesheet">
+    <link href="../css/interview.css" rel="stylesheet">
+    <link href="../css/fadein.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              animation: {
+                pulse: 'pulse 1.5s infinite'
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans text-black">
   <header class="text-white text-center py-6 shadow" style="background-color: #4a90e2;">
     <h1 class="text-2xl font-bold">🎤 모의면접 시작하기</h1>
   </header>
 
-  <!-- 면접관 이미지 -->
-<section class="text-center mt-10">
-  <h2 class="text-xl font-semibold mb-6" style="color: #4a90e2;">👥 면접관이 기다리고 있어요</h2>
-  <div class="flex justify-center gap-8">
-    <img src="interviewer3.jpg" alt="면접관1" class="w-80 h-80 rounded-lg shadow" />
-    <img src="interviewer4.jpg" alt="면접관2" class="w-80 h-80 rounded-lg shadow" />
-  </div>
-</section>
-
-<!-- 영상 영역 -->
-<section class="mt-12 text-center">
-  <h2 class="text-lg font-semibold mb-4" style="color: #4a90e2;">🎥 카메라 미리보기</h2>
-  <video id="preview" autoplay muted playsinline class="mx-auto border rounded shadow" style="width: 640px; height: 480px; background: black;"></video>
-
-  <div class="mt-6">
-    <button id="startBtn" class="px-6 py-2 font-semibold text-white rounded" style="background-color: #4a90e2;" onmouseover="this.style.backgroundColor='#357ab8'" onmouseout="this.style.backgroundColor='#4a90e2'">
-      ⏺ 녹화 시작
-    </button>
+  <div class="flex flex-row justify-center items-center">
+    <img class="w-[200px] h-[200px]" src="../img/ai_robot.png">
+    <div id="guide" class="guide">
+      <div class="speech-bubble right-bubble fade-in text-center">모의 면접에 오신 걸 환영합니다!</div>
+    </div>
   </div>
 
-  <div id="recordedContainer" class="mt-8 hidden">
-    <h3 class="text-lg font-medium mb-2" style="color: #4a90e2;">📼 녹화된 영상</h3>
-    <video id="recorded" controls class="mx-auto border rounded shadow" style="width: 640px; height: 480px;"></video>
-  </div>
-</section>
+  <section class="mt-5 mb-8 flex flex-col items-center">
+    <h2 class="text-lg font-semibold mb-4" style="color: #4a90e2;">🎥 카메라</h2>
+    <div class="mac-window flex items-center justify-center flex-col border-none ">
+      <div class="mac-controls">
+        <div class="red"></div>
+        <div class="yellow"></div>
+        <div class="green"></div>
+      </div>
+      <video id="preview" autoplay muted playsinline class="rounded border w-[576px] h-[384px] bg-black mt-7 mb-5"></video>
+      <div class="bottom-2">
+        <button id="startBtn"
+        class="w-14 h-14 rounded-full bg-red-600 bg-opacity-80 border-4 border-red-800 ring-4 ring-red-300/60 shadow-inner hover:shadow-xl transition-transform duration-200 transform hover:scale-105 mb-2"
+        title="녹화 시작">
+        </button>
+      </div>
+    </div>
 
+    <div class="flex flex-col items-centers">
+      <div id="recordedContainer" class="mt-10 hidden">
+        <h3 class="text-lg font-medium mb-2" style="color: #4a90e2;">📼 동영상 미리 보기</h3>
+        <video id="recorded" controls class="rounded border w-[360px] h-[246px] mx-auto"></video>
+        <a id="downloadBtn" href="#" download="interview_recording.webm" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded text-center hidden w-[160px] block mx-auto">💾 동영상 저장하기</a>
+      </div>
 
-  <!-- 푸터 -->
-  <footer class="text-center bg-gray-200 text-sm py-6 mt-12">
-    © 2025 구직도움 웹사이트 - AI 면접 연습기
-  </footer>
+      <div id="audioContainer" class="mt-10 hidden w-[100%]">
+        <h3 class="text-lg font-medium mb-2" style="color: #4a90e2;">🔊 녹음된 음성 미리 듣기</h3>
+        <audio id="recordedAudio" controls controlsList="nodownload" class="w-[100%]"></audio>
+        <a id="audioDownloadBtn" href="#" download="interview_audio.webm" class=" mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded text-center hidden mb-2 w-[150px] block mx-auto">🎧 음성 저장하기</a>
+      </div>
+    </div>
 
-  <!-- JS: 카메라 + 녹화 -->
-  <script>
-    const preview = document.getElementById('preview');
-    const recorded = document.getElementById('recorded');
-    const recordedContainer = document.getElementById('recordedContainer');
-    const startBtn = document.getElementById('startBtn');
-
-    let mediaRecorder;
-    let recordedChunks = [];
-
-    async function initCamera() {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-      preview.srcObject = stream;
-
-      mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) recordedChunks.push(e.data);
-      };
-
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(recordedChunks, { type: 'video/webm' });
-        recorded.src = URL.createObjectURL(blob);
-        recordedContainer.classList.remove('hidden');
-        recordedChunks = [];
-      };
-    }
-
-    startBtn.addEventListener('click', () => {
-      if (mediaRecorder.state === 'inactive') {
-        mediaRecorder.start();
-        startBtn.textContent = '⏹ 녹화 종료';
-        startBtn.style.backgroundColor = '#e74c3c';
-      } else {
-        mediaRecorder.stop();
-        startBtn.textContent = '⏺ 녹화 시작';
-        startBtn.style.backgroundColor = '#4a90e2';
-      }
-    });
-
-    initCamera();
-  </script>
+  </section>
+  <script src="../js/interviewBubble.js"></script>
+  <script src="../js/interviewCamera.js"></script>
 </body>
 </html>

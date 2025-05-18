@@ -1,0 +1,43 @@
+
+    .guide {
+       position: absolute;
+       align-self: flex-end;
+    }
+
+    .speech-bubble {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 300px;
+    }
+
+    .mac-window {
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      background: white;
+      position: relative;
+      width: 640px;
+      height: 512px;
+    }
+
+    .mac-controls {
+      position: absolute;
+      top: 8px;
+      left: 12px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .mac-controls div {
+      width: 12px;
+      height: 12px;
+      border-radius: 9999px;
+    }
+
+    .red { background-color: #ff5f56; }
+    .yellow { background-color: #ffbd2e; }
+    .green { background-color: #27c93f; }

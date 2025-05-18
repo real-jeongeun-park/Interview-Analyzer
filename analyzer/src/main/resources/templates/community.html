@@ -2,61 +2,53 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
-<title>구직자 커뮤니티</title>
-<script src="https://cdn.tailwindcss.com"></script>
+  <title>구직자 커뮤니티</title>
+  <link href="../css/font.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans text-gray-800">
+  <!-- 헤더 -->
+  <header class="text-white text-center py-6 shadow" style="background-color: #4a90e2;">
+    <h1 class="text-2xl font-bold">💬 구직자 커뮤니티</h1>
+    <p class="text-sm mt-1 text-white">취업 고민, 팁, 질문을 자유롭게 나누세요!</p>
+  </header>
 
-<!-- 헤더 -->
-<header class="text-white text-center py-6 shadow" style="background-color: #4a90e2;">
-  <h1 class="text-2xl font-bold">💬 구직자 커뮤니티</h1>
-  <p class="text-sm mt-1 text-white">취업 고민, 팁, 질문을 자유롭게 나누세요!</p>
-</header>
-
-<!-- 검색 -->
-<section class="max-w-6xl mx-auto px-6 mt-6">
-  <input type="text"
-          id="searchInput"
-          placeholder="내용 검색..."
-          class="w-full border px-4 py-2 rounded focus:outline-[#4a90e2]"/>
-</section>
-
-<!-- 좌우 2단 구조: 게시글(왼쪽) + 글쓰기(오른쪽) -->
-<section class="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row gap-6">
-  <!-- 게시글 리스트 (왼쪽) -->
-  <div class="w-full md:w-3/5">
-    <h2 class="text-lg font-semibold mb-4 text-[#4a90e2]">📋 게시글</h2>
-    <div id="postList" class="space-y-4">
-      <!-- 게시글이 여기에 추가됨 -->
-      <div th:each="i : ${#numbers.sequence(comments.size()-1, 0, -1)}">
-        <div class="text-sm text-gray-500 mb-1" th:text="'익명 ' + ${comments[i].id} + ' • ' + ${comments[i].date}"></div>
-        <div class="text-gray-800 whitespace-pre-line mb-2" th:text="${comments[i].content}"></div>
-        <div class="flex items-center gap-4 text-sm mb-2">
-          <form action="/home/community/like" method="post">
-            <input class="hidden" name="id" type="text" th:value="${comments[i].id}">
-            <button type="submit" class="likeBtn text-[#4a90e2]" th:text="'❤️좋아요 ' + ${comments[i].likes}"></button>
-          </form>
+  <!-- 좌우 2단 구조: 게시글(왼쪽) + 글쓰기(오른쪽) -->
+  <section class="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row gap-6">
+    <!-- 게시글 리스트 (왼쪽) -->
+    <div class="w-full md:w-3/5">
+      <h2 class="text-lg font-semibold mb-4 text-[#4a90e2]">📋 게시글</h2>
+      <div id="postList" class="space-y-4">
+        <!-- 게시글이 여기에 추가됨 -->
+        <div th:each="i : ${#numbers.sequence(comments.size()-1, 0, -1)}">
+          <div class="text-sm text-gray-500 mb-1" th:text="'익명 ' + ${comments[i].id} + ' • ' + ${comments[i].date}"></div>
+          <div class="text-gray-800 whitespace-pre-line mb-2" th:text="${comments[i].content}"></div>
+          <div class="flex items-center gap-4 text-sm mb-2">
+            <form action="/home/community/like" method="post">
+              <input class="hidden" name="id" type="text" th:value="${comments[i].id}">
+              <button type="submit" class="likeBtn text-[#4a90e2]" th:text="'❤️좋아요 ' + ${comments[i].likes}"></button>
+            </form>
+          </div>
         </div>
+        <div class="text-sm text-gray-500 mb-1"></div>
       </div>
-      <div class="text-sm text-gray-500 mb-1"></div>
     </div>
-  </div>
 
-  <!-- 글쓰기 폼 (오른쪽) -->
-  <div class="w-full md:w-2/5 bg-white shadow rounded p-6">
-    <h2 class="text-lg font-semibold mb-4 text-[#4a90e2]">📝 글 작성</h2>
-    <form action="/home/community" method="post" id="postForm" class="space-y-4">
-      <textarea name="content" id="content" rows="4" placeholder="내용을 입력하세요..." required class="w-full border px-4 py-2 rounded resize-none"></textarea>
-      <button type="submit" class="bg-[#4a90e2] hover:bg-[#357ab8] text-white font-semibold px-6 py-2 rounded">
-        등록하기
-      </button>
-    </form>
-  </div>
-</section>
+    <!-- 글쓰기 폼 (오른쪽) -->
+    <div class="w-full md:w-2/5 bg-white shadow rounded p-6">
+      <h2 class="text-lg font-semibold mb-4 text-[#4a90e2]">📝 글 작성</h2>
+      <form action="/home/community" method="post" id="postForm" class="space-y-4">
+        <textarea name="content" id="content" rows="4" placeholder="내용을 입력하세요..." required class="w-full border px-4 py-2 rounded resize-none"></textarea>
+        <button type="submit" class="bg-[#4a90e2] hover:bg-[#357ab8] text-white font-semibold px-6 py-2 rounded">
+          등록하기
+        </button>
+      </form>
+    </div>
+  </section>
 
-<!-- 푸터 -->
-<footer class="text-center bg-gray-200 text-sm py-6 mt-10">
-  © 2025 구직도움 웹사이트 - 함께하는 커뮤니티
-</footer>
+  <!-- 푸터 -->
+  <footer class="text-center bg-gray-200 text-sm py-6 mt-10">
+    © 2025 구직도움 웹사이트 - 함께하는 커뮤니티
+  </footer>
 </body>
 </html>

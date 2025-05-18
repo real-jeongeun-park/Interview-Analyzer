@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>자소서 분석</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="../css/font.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <!-- 상단 헤더 -->
+  <header class="text-white text-center py-6 shadow" style="background-color: #4a90e2;">
+    <h1 class="text-2xl font-bold">📄 자기소개서 분석</h1>
+  </header>
+
+  <!-- 메인 콘텐츠 -->
+  <main class="max-w-4xl mx-auto px-6 py-10">
+    <section class="bg-white p-8 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4" style="color: #4a90e2;">📌 자기소개서를 입력하세요</h2>
+
+      <!-- 텍스트 입력 -->
+      <form action="/home/analysis/result" method="POST">
+        <textarea name="content" rows="10" class="w-full p-4 border rounded mb-6 resize-none focus:outline-[#4a90e2]" placeholder="자소서를 붙여넣거나 입력하세요..." required></textarea>
+        <!-- 분석 버튼 -->
+        <button class="text-white font-semibold px-6 py-2 rounded" style="background-color: #4a90e2;"
+                onmouseover="this.style.backgroundColor='#357ab8'"
+                onmouseout="this.style.backgroundColor='#4a90e2'">
+          ✨ 분석 시작하기
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="text-center bg-gray-200 text-sm py-6 mt-12">
+    © 2025 구직도움 웹사이트 - AI가 도와주는 자소서 분석기
+  </footer>
+</body>
+</html>
+
+
