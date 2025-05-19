@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>기사 모음집</title>
+  <link href="../css/font.css" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans text-gray-800">
@@ -28,7 +29,22 @@
   <!-- 기사 리스트 -->
   <main class="max-w-4xl mx-auto px-6 py-4">
     <div id="articleList" class="flex flex-col gap-4">
-      <!-- JSON에서 불러온 기사들이 여기에 추가됨 -->
+
+      <!-- 기사 예시 -->
+      <div class="article w-full bg-white rounded-lg shadow p-6 hover:shadow-lg transition relative" data-category="면접">
+        <button class="absolute top-4 right-4 text-yellow-400 text-xl" onclick="toggleStar(this)">☆</button>
+        <h3 class="text-xl font-semibold text-[#4a90e2] mb-1 cursor-pointer" onclick="showSummary(this)">면접 질문 베스트 10</h3>
+        <p class="text-sm text-gray-700">실제 기업 면접에서 자주 나오는 질문을 모아봤어요!</p>
+        <p class="text-xs text-gray-500 mt-2">작성일: 2025.04.01</p>
+      </div>
+
+      <div class="article w-full bg-white rounded-lg shadow p-6 hover:shadow-lg transition relative" data-category="자소서">
+        <button class="absolute top-4 right-4 text-yellow-400 text-xl" onclick="toggleStar(this)">☆</button>
+        <h3 class="text-xl font-semibold text-[#4a90e2] mb-1 cursor-pointer" onclick="showSummary(this)">자기소개서 잘 쓰는 법</h3>
+        <p class="text-sm text-gray-700">전문가가 알려주는 자소서 항목별 작성 전략!</p>
+        <p class="text-xs text-gray-500 mt-2">작성일: 2025.03.20</p>
+      </div>
+
     </div>
   </main>
 
@@ -49,39 +65,17 @@
   <script>
     const searchInput = document.getElementById('searchInput');
     const categoryFilter = document.getElementById('categoryFilter');
-    const articleList = document.getElementById('articleList');
+    const articles = document.querySelectorAll('.article');
 
-    let allArticles = [];
-
-    function renderArticles() {
-      const keyword = searchInput.value.toLowerCase();
+    function filterArticles() {
+      const search = searchInput.value.toLowerCase();
       const category = categoryFilter.value;
-
-      articleList.innerHTML = "";
-
-      allArticles.forEach(article => {
-        const title = article.title.toLowerCase();
-        const matchSearch = title.includes(keyword);
-        const matchCategory = category === '전체' || article.category === category;
-
-        if (matchSearch && matchCategory) {
-          const div = document.createElement("div");
-          div.className = "article w-full bg-white rounded-lg shadow p-6 hover:shadow-lg transition relative";
-          div.dataset.category = article.category || "트렌드";
-
-          div.innerHTML = `
-            <button class="absolute top-4 right-4 text-yellow-400 text-xl" onclick="toggleStar(this)">☆</button>
-           <a href="${article.link}" target="_blank">
-           <h3 class="text-xl font-semibold text-[#4a90e2] mb-1 hover:underline">
-            ${article.title}
-           </h3>
-           </a>
-            <p class="text-sm text-gray-700">${article.summary || ''}</p>
-           <p class="text-xs text-gray-500 mt-2">출처: 중앙일보</p>
-          `;
-
-          articleList.appendChild(div);
-        }
+      articles.forEach(article => {
+        const title = article.querySelector('h3').textContent.toLowerCase();
+        const text = article.querySelector('p').textContent.toLowerCase();
+        const matchCategory = category === '전체' || article.dataset.category === category;
+        const matchSearch = title.includes(search) || text.includes(search);
+        article.style.display = (matchCategory && matchSearch) ? 'block' : 'none';
       });
     }
 
@@ -101,23 +95,8 @@
       document.getElementById('modal').classList.remove('flex');
     }
 
-    // 이벤트 등록
-    searchInput.addEventListener('input', renderArticles);
-    categoryFilter.addEventListener('change', renderArticles);
-
-    // JSON 파일 불러오기
-  fetch("./articles.json")
-  .then(res => res.json())
-  .then(data => {
-    allArticles = data.map(item => ({
-      title: item.title,
-      link: item.link
-    }));
-    renderArticles();
-  });
-
-
-   
+    searchInput.addEventListener('input', filterArticles);
+    categoryFilter.addEventListener('change', filterArticles);
   </script>
 
 </body>
