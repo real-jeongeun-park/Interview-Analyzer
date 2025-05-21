@@ -45,7 +45,7 @@ const intervalId = setInterval(() => {
  }, 4000);
 
 function guide(j){
-  element.innerHTML = "<div class='speech-bubble right-bubble fade-in text-center whitespace-pre'>" + guideStrings[j] + "</div>";
+  element.innerHTML = "<div class='speech-bubble fade-in text-center whitespace-pre'>" + guideStrings[j] + "</div>";
 }
 
 // 10초 타이머
@@ -69,7 +69,7 @@ function timeInterval(){
 }
 
 function timer(m){
-  element.innerHTML = "<div class='speech-bubble right-bubble fade-in text-center w-[100px]'>" + l + "</div>";
+  element.innerHTML = "<div class='speech-bubble fade-in text-center w-[100px]'>" + l + "</div>";
 }
 
 // 질문 시작
@@ -82,7 +82,7 @@ function questionInterval(){
   // 첫 질문 defualt로 띄우기
   const firstQuestion = 0;
   isAlreadyUsed[firstQuestion] = true;
-  element.innerHTML = "<div class='speech-bubble right-bubble fade-in text-center'>" + questions[firstQuestion] + "<span id='timeChecker'> (60초 남음)</span></div>";
+  element.innerHTML = "<div class='speech-bubble fade-in text-center'>" + questions[firstQuestion] + "<span id='timeChecker'> (60초 남음)</span></div>";
   questionTimer();
 
   const intervalId3 = setInterval(() => {
@@ -109,7 +109,7 @@ function startRecording(){
     try{
        mediaRecorder.start();
     } catch(e){
-        element.innerHTML = "<div class='speech-bubble right-bubble fade-in text-center text-red-500 whitespace-pre'>⚠️ 카메라 사용 권한이 없어요!\n허용을 선택한 후, 새로고침 하세요.</div>";
+        element.innerHTML = "<div class='speech-bubble fade-in text-center text-red-500 whitespace-pre'>⚠️ 카메라 사용 권한이 없어요!\n허용을 선택한 후, 새로고침 하세요.</div>";
         return true;
     }
 
@@ -124,7 +124,7 @@ function question(p){
    while(true){
       var randomInt = randomIntGenerator(questions.length);
       if(!isAlreadyUsed[randomInt]){
-        element.innerHTML = "<div class='speech-bubble right-bubble fade-in text-center'>" + questions[randomInt] + "<span id='timeChecker'> (60초 남음)</span></div>";
+        element.innerHTML = "<div class='speech-bubble fade-in text-center'>" + questions[randomInt] + "<span id='timeChecker'> (60초 남음)</span></div>";
         isAlreadyUsed[randomInt] = true;
         break;
       }

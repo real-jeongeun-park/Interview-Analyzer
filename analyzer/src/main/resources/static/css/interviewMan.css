@@ -1,0 +1,13 @@
+.man {
+    border-radius: 0.5rem;
+    margin: 1.25rem;
+}
+
+.speech-bubble {
+    min-width: 220px;
+}
+
+.timer {
+    width: 100px;
+    min-width: 100px;
+}

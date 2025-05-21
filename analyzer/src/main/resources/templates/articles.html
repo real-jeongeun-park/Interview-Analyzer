@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <title>기사 모음집</title>
+  <link href="/css/font.css" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans text-gray-800">
@@ -13,112 +14,27 @@
     <p class="text-sm mt-1 text-white">채용 트렌드, 면접 전략, 자소서 팁 등 다양한 정보를 한곳에!</p>
   </header>
 
-  <!-- 필터/검색 바 -->
-  <section class="max-w-4xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <select id="categoryFilter" class="border rounded px-4 py-2">
-      <option value="전체">전체</option>
-      <option value="면접">면접</option>
-      <option value="자소서">자소서</option>
-      <option value="트렌드">트렌드</option>
-      <option value="정책">정책</option>
-    </select>
-    <input id="searchInput" type="text" placeholder="기사 검색..." class="w-full sm:w-1/2 border rounded px-4 py-2 focus:outline-[#4a90e2]" />
-  </section>
-
   <!-- 기사 리스트 -->
-  <main class="max-w-4xl mx-auto px-6 py-4">
-    <div id="articleList" class="flex flex-col gap-4">
-      <!-- JSON에서 불러온 기사들이 여기에 추가됨 -->
+  <main class="max-w-4xl mx-auto px-6 py-8">
+    <div id="articleList" class="grid grid-cols-1 gap-6">
+      <th:block th:each="article : ${articles}">
+        <div class="group bg-white border border-gray-200 hover:border-blue-400 rounded-2xl p-5 shadow-sm hover:shadow-lg transition duration-200 flex flex-col gap-2">
+          <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition">
+            <span th:text="${article.title}"></span>
+          </h2>
+
+          <a th:href="${article.link}" target="_blank"
+             class="text-sm text-blue-500 hover:underline break-all">
+            <span th:text="${article.link}"></span>
+          </a>
+
+          <div class="mt-2 text-xs text-gray-400">📅 최신 기사 | 📰 중앙일보</div>
+        </div>
+      </th:block>
     </div>
   </main>
-
-  <!-- 기사 요약 모달 -->
-  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center">
-    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md">
-      <h2 id="modalTitle" class="text-xl font-bold mb-4"></h2>
-      <p class="text-sm text-gray-700">이 기사는 주요 면접 질문을 소개하고, 실전 팁을 제공합니다.</p>
-      <button class="mt-4 px-4 py-2 bg-[#4a90e2] text-white rounded" onclick="closeModal()">닫기</button>
-    </div>
-  </div>
-
   <footer class="text-center bg-gray-200 text-sm py-6">
     © 2025 구직도움 웹사이트 - 모두의 성공적인 취업을 응원합니다!
   </footer>
-
-  <!-- 기능 스크립트 -->
-  <script>
-    const searchInput = document.getElementById('searchInput');
-    const categoryFilter = document.getElementById('categoryFilter');
-    const articleList = document.getElementById('articleList');
-
-    let allArticles = [];
-
-    function renderArticles() {
-      const keyword = searchInput.value.toLowerCase();
-      const category = categoryFilter.value;
-
-      articleList.innerHTML = "";
-
-      allArticles.forEach(article => {
-        const title = article.title.toLowerCase();
-        const matchSearch = title.includes(keyword);
-        const matchCategory = category === '전체' || article.category === category;
-
-        if (matchSearch && matchCategory) {
-          const div = document.createElement("div");
-          div.className = "article w-full bg-white rounded-lg shadow p-6 hover:shadow-lg transition relative";
-          div.dataset.category = article.category || "트렌드";
-
-          div.innerHTML = `
-            <button class="absolute top-4 right-4 text-yellow-400 text-xl" onclick="toggleStar(this)">☆</button>
-           <a href="${article.link}" target="_blank">
-           <h3 class="text-xl font-semibold text-[#4a90e2] mb-1 hover:underline">
-            ${article.title}
-           </h3>
-           </a>
-            <p class="text-sm text-gray-700">${article.summary || ''}</p>
-           <p class="text-xs text-gray-500 mt-2">출처: 중앙일보</p>
-          `;
-
-          articleList.appendChild(div);
-        }
-      });
-    }
-
-    function toggleStar(btn) {
-      btn.textContent = (btn.textContent === '☆') ? '★' : '☆';
-    }
-
-    function showSummary(element) {
-      const title = element.textContent;
-      document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modal').classList.remove('hidden');
-      document.getElementById('modal').classList.add('flex');
-    }
-
-    function closeModal() {
-      document.getElementById('modal').classList.add('hidden');
-      document.getElementById('modal').classList.remove('flex');
-    }
-
-    // 이벤트 등록
-    searchInput.addEventListener('input', renderArticles);
-    categoryFilter.addEventListener('change', renderArticles);
-
-    // JSON 파일 불러오기
-  fetch("./articles.json")
-  .then(res => res.json())
-  .then(data => {
-    allArticles = data.map(item => ({
-      title: item.title,
-      link: item.link
-    }));
-    renderArticles();
-  });
-
-
-   
-  </script>
-
 </body>
 </html>

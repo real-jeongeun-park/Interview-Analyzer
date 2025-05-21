@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymleaf.org">
 <head>
     <meta charset="UTF-8" />
     <title>모의면접</title>
   <style>
 
   </style>
-    <link href="../css/font.css" rel="stylesheet">
-    <link href="../css/interview.css" rel="stylesheet">
-    <link href="../css/fadein.css" rel="stylesheet">
+    <link href="/css/font.css" rel="stylesheet">
+    <link href="/css/interview.css" rel="stylesheet">
+    <link href="/css/fadein.css" rel="stylesheet">
+    <link th:if="${selected.name == 'man'}" href="/css/interviewMan.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -28,9 +29,9 @@
   </header>
 
   <div class="flex flex-row justify-center items-center">
-    <img class="w-[200px] h-[200px]" src="../img/ai_robot.png">
+    <img class="w-[200px] h-[200px] man" th:src="'/img/' + ${selected.imgName}">
     <div id="guide" class="guide">
-      <div class="speech-bubble right-bubble fade-in text-center">모의 면접에 오신 걸 환영합니다!</div>
+      <div class="speech-bubble fade-in text-center">모의 면접에 오신 걸 환영합니다.</div>
     </div>
   </div>
 
@@ -66,7 +67,7 @@
     </div>
 
   </section>
-  <script src="../js/interviewBubble.js"></script>
-  <script src="../js/interviewCamera.js"></script>
+  <script src="/js/interviewCamera.js"></script>
+  <script th:src="'/js/' + ${selected.jsName}"></script>
 </body>
 </html>
