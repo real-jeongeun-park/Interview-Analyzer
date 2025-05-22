@@ -20,12 +20,9 @@ public class RestAiController {
 
     @PostMapping("/home/ai/asked")
     public Answer handlePrompt(@RequestBody Prompt prompt) throws IOException, InterruptedException {
-        Answer answer;
-
         // 밑에는 디버깅 부분
         // System.out.println(promptDto.getPrompt());
 
-        answer = aiService.startAI(prompt.getPrompt());
-        return answer;
+        return aiService.startAI(prompt.getPrompt());
     }
 }

@@ -2,10 +2,12 @@ const preview = document.getElementById('preview');
 const recorded = document.getElementById('recorded');
 const recordedAudio = document.getElementById('recordedAudio');
 const recordedContainer = document.getElementById('recordedContainer');
-const audioContainer = document.getElementById('audioContainer');
+const resultContainer = document.getElementById('resultContainer');
 const startBtn = document.getElementById('startBtn');
 const downloadBtn = document.getElementById('downloadBtn');
-const audioDownloadBtn = document.getElementById('audioDownloadBtn');
+
+let jsonData;
+
 
 let mediaRecorderVideo;
 let mediaRecorderAudio;
@@ -45,14 +47,24 @@ async function initCamera() {
     if (e.data.size > 0) recordedAudioChunks.push(e.data);
   };
 
-  mediaRecorderAudio.onstop = () => {
+  mediaRecorderAudio.onstop = async () => {
     const audioBlob = new Blob(recordedAudioChunks, { type: 'audio/webm' });
-    const audioURL = URL.createObjectURL(audioBlob);
-    recordedAudio.src = audioURL;
-    audioContainer.classList.remove("hidden");
-    audioDownloadBtn.href = audioURL;
-    audioDownloadBtn.classList.remove("hidden");
+    const formData = new FormData();
+    formData.append('file', audioBlob, 'audio.webm');
 
+    try{
+        const response = await fetch('/home/interview/transcribe', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+        jsonData = JSON.stringify(data);
+
+        resultContainer.classList.remove("hidden");
+    } catch(e){
+        console.error(e);
+    }
     recordedAudioChunks = [];
   };
 }
@@ -65,11 +77,13 @@ startBtn.addEventListener('click', () => {
 
     isRecording = true;
     startBtn.classList.add('ring-4', 'ring-red-400', 'animate-pulse');
-  } else {
+  }
+
+  else {
     mediaRecorderVideo.stop();
     mediaRecorderAudio.stop();
 
-    element.innerHTML = "<div class='speech-bubble right-bubble fade-in text-center whitespace-pre'>😝 모의 면접이 종료됐어요!\n아래의 동영상과 녹음본을 확인하세요.</div>";
+    element.innerHTML = "<div class='speech-bubble right-bubble fade-in text-center whitespace-pre'>모의 면접이 종료됐어요.\n아래의 동영상과 모의 면접 결과를 확인하세요.</div>";
     isRecording = false;
     finishRecording = true; // 더이상 질문 올라오지 x
     startBtn.classList.remove('ring-4', 'ring-red-400', 'animate-pulse');
@@ -78,3 +92,18 @@ startBtn.addEventListener('click', () => {
 });
 
 initCamera();
+
+async function resultCheck(){
+    console.log(jsonData);
+    try{
+    const result = await fetch('/home/interview/result', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: jsonData,
+    });
+    } catch(e){
+        console.error(e);
+    }
+}

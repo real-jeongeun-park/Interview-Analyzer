@@ -9,7 +9,6 @@ import java.io.IOException;
 public class AiService {
     public Answer startAI(String prompt) throws IOException, InterruptedException {
         ChatGptApi chatApi = new ChatGptApi(200);
-        Answer answer = chatApi.chatAnswer(prompt);
-        return answer;
+        return chatApi.chatAnswer(prompt);
     }
 }

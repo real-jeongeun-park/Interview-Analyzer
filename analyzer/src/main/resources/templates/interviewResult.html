@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>모의 면접 분석 결과</title>
+    <link href="../../css/font.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+<!-- 헤더 -->
+<header class="text-white text-center py-6 shadow" style="background-color: #4a90e2;">
+    <h1 class="text-2xl font-bold">📊 모의 면접 분석 결과</h1>
+</header>
+
+<!-- 분석 결과 -->
+<main class="max-w-3xl mx-auto px-6 py-10">
+    <section class="bg-white p-8 rounded-lg shadow">
+        <h2 class="text-lg font-semibold text-green-600 mb-4">📋 모의 면접 분석 결과 요약</h2>
+        <p class="bg-gray-100 p-4 rounded border" th:text="${result}"></p>
+    </section>
+</main>
+
+<!-- 푸터 -->
+<footer class="text-center bg-gray-200 text-sm py-6 mt-12">
+    © 2025 구직도움 웹사이트 - AI 자소서 분석 결과
+</footer>
+</body>
+</html>

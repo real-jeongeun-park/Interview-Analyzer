@@ -59,13 +59,11 @@
         <a id="downloadBtn" href="#" download="interview_recording.webm" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded text-center hidden w-[160px] block mx-auto">💾 동영상 저장하기</a>
       </div>
 
-      <div id="audioContainer" class="mt-10 hidden w-[100%]">
-        <h3 class="text-lg font-medium mb-2" style="color: #4a90e2;">🔊 녹음된 음성 미리 듣기</h3>
-        <audio id="recordedAudio" controls controlsList="nodownload" class="w-[100%]"></audio>
-        <a id="audioDownloadBtn" href="#" download="interview_audio.webm" class=" mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded text-center hidden mb-2 w-[150px] block mx-auto">🎧 음성 저장하기</a>
+      <div id="resultContainer" class="mt-10 hidden w-[100%]">
+        <h3 class="text-lg font-medium mb-2" style="color: #4a90e2;">📋 모의 면접 분석 결과 보기</h3>
+        <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded text-center block mx-auto" onclick="resultCheck()">📊 결과 보러 가기</button>
       </div>
     </div>
-
   </section>
   <script src="/js/interviewCamera.js"></script>
   <script th:src="'/js/' + ${selected.jsName}"></script>
