@@ -16,7 +16,7 @@ const questions = [
 const guideStrings = [
   "룰은 간단합니다. 랜덤한 질문이 주어지고,\n그에 맞춰 그에 맞춰 1분 동안 답변을 해주세요.",
   "면접을 끝내고 싶으면,\n밑에 있는 빨간색 버튼을 눌러주세요.",
-  "면접이 끝나면 녹음된 음성과\n찍은 동영상을 받아볼 수 있습니다.",
+  "면접이 끝나면 찍은 동영상과\n모의 면접 결과를 받아볼 수 있습니다.",
   "그럼 지금부터 10초 후에\n모의 면접을 시작합니다."
 ]
 
@@ -36,6 +36,7 @@ const intervalId = setInterval(() => {
 
   else if(finishRecording){
     // 끝났으면
+    clearInterval(intervalId);
     return;
   }
 
@@ -59,6 +60,7 @@ function timeInterval(){
 
     else if(finishRecording){
         // 끝났으면
+        clearInterval(intervalId2);
         return;
     }
 
@@ -69,7 +71,7 @@ function timeInterval(){
 }
 
 function timer(m){
-  element.innerHTML = "<div class='speech-bubble fade-in text-center timer'>" + l + "</div>";
+  element.innerHTML = "<div class='speech-bubble fade-in text-center w-[100px]'>" + l + "</div>";
 }
 
 // 질문 시작
@@ -93,11 +95,12 @@ function questionInterval(){
 
     else if(finishRecording){
         // 끝났으면
+        clearInterval(intervalId3);
         return;
     }
 
     else{
-      question(p++);
+      question(++p);
       questionTimer();
     }
   }, 60000);// 60초. 1분 진행. 테스트는 10초 진행.
@@ -107,8 +110,10 @@ function startRecording(){
   if(!isRecording){
     // false라면 바로 실행 시키기. true이면 그대로 둠.
     try{
-       mediaRecorder.start();
+       mediaRecorderVideo.start();
+       mediaRecorderAudio.start();
     } catch(e){
+        console.error(e);
         element.innerHTML = "<div class='speech-bubble fade-in text-center text-red-500 whitespace-pre'>⚠️ 카메라 사용 권한이 없습니다.\n허용을 선택한 후, 새로고침 하세요.</div>";
         return true;
     }
@@ -120,19 +125,25 @@ function startRecording(){
  }
 
 function question(p){
-// p는 단순히 횟수 셈
-   while(true){
-      var randomInt = randomIntGenerator(questions.length);
-      if(!isAlreadyUsed[randomInt]){
-        element.innerHTML = "<div class='speech-bubble fade-in text-center'>" + questions[randomInt] + "<span id='timeChecker'> (60초 남음)</span></div>";
-        isAlreadyUsed[randomInt] = true;
-        break;
-      }
-   }
+  let available = isAlreadyUsed.some(u => u === false);
+  if (!available) {
+    finishRecording = true;
+    element.innerHTML = "<div class='speech-bubble fade-in text-center'>모든 질문이 끝났습니다.</div>";
+    return;
+  }
+
+  while (true) {
+    var randomInt = randomIntGenerator(questions.length);
+    if (!isAlreadyUsed[randomInt]) {
+      element.innerHTML = "<div class='speech-bubble fade-in text-center'>" + questions[randomInt] + "<span id='timeChecker'> (60초 남음)</span></div>";
+      isAlreadyUsed[randomInt] = true;
+      break;
+    }
+  }
 }
 
 function randomIntGenerator(size){
-    return Math.floor(Math.random() * 10) % size;
+    return Math.floor(Math.random() * size);
 }
 
 function questionTimer(){
@@ -142,7 +153,7 @@ function questionTimer(){
   const intervalId4 = setInterval(() => {
     if(time <= 0){
       // 0초가 되면
-    clearInterval(intervalId4)
+    clearInterval(intervalId4);
     }
 
     else if(finishRecording){

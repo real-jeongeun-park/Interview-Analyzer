@@ -48,7 +48,7 @@ public class ChatGptApi {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://api.openai.com/v1/chat/completions"))
                     .header("Content-Type", "application/json") // json 형태로 날림
-                    .header("Authorization", "x")
+                    .header("Authorization", "")
                     // github에서 빼기
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build(); // 요청 보낼 곳 지정, 요청 content 타입 지정 -> json
@@ -68,7 +68,10 @@ public class ChatGptApi {
                 // 위는 디버깅 부분
                 return answer;
             }
-            else return null;
+            else{
+                System.out.println(response.body());
+                return null;
+            }
         }
         else {
             System.out.println("NO AUDIO RECORDED");

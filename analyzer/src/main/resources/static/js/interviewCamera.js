@@ -7,8 +7,6 @@ const startBtn = document.getElementById('startBtn');
 const downloadBtn = document.getElementById('downloadBtn');
 
 let jsonData;
-
-
 let mediaRecorderVideo;
 let mediaRecorderAudio;
 let recordedVideoChunks = [];
@@ -93,17 +91,23 @@ startBtn.addEventListener('click', () => {
 
 initCamera();
 
-async function resultCheck(){
-    console.log(jsonData);
-    try{
-    const result = await fetch('/home/interview/result', {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: jsonData,
-    });
-    } catch(e){
-        console.error(e);
+async function resultCheck() {
+    try {
+        const response = await fetch('/home/interview/result', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: jsonData,
+        });
+
+        if (response.ok) {
+            // 세션에 answer 저장이 완료된 후 페이지 이동
+            window.location.href = "/home/interview/result";
+        } else {
+            console.error("POST 실패", await response.text());
+        }
+    } catch (e) {
+        console.error("에러 발생", e);
     }
 }

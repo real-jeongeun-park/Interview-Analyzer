@@ -44,7 +44,7 @@ public class SpeechService {
 
     public Answer startChat(String transcript) throws IOException, InterruptedException {
         ChatGptApi chatApi = new ChatGptApi(1000);
-        chatApi.setDefaultPrompt("다음은 사용자가 웹사이트에서 진행한 모의 면접에 대한 필사본이야. 횡설수설하거나, 어색한 면접 답변 부분을 찾아서 올바르게 지적해줘 : \n");
+        chatApi.setDefaultPrompt("다음은 사용자가 웹사이트에서 진행한 모의 면접에 대한 필사본이야. 횡설수설하거나, 어색한 면접 답변 부분을 찾아서 올바르게 지적해줘. 중요한 건, 이건 글로 쓴 게 아니라 말한 걸 옮긴 것이기 때문에 맞춤법이 조금 어색할 수 있어. 그런 부분보다는 어색한 답변 부분을 찾아 지적해 줘.: \n");
         return chatApi.chatAnswer(transcript);
     }
 }

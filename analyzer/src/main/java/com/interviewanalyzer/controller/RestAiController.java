@@ -22,7 +22,10 @@ public class RestAiController {
     public Answer handlePrompt(@RequestBody Prompt prompt) throws IOException, InterruptedException {
         // 밑에는 디버깅 부분
         // System.out.println(promptDto.getPrompt());
-
-        return aiService.startAI(prompt.getPrompt());
+        Answer answer = aiService.startAI(prompt.getPrompt());
+        String formatted = answer.getAnswer().replace("\n", "<br/>");
+        formatted = formatted.replace("**", "");
+        answer.setAnswer(formatted);
+        return answer;
     }
 }
